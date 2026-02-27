@@ -70,4 +70,6 @@ VALIDATE $? "Extracting backend application code"
 
 npm install &>>$LOG_FILE
 
+pwd
+#cp /home/ec2-user/ExpenseProject_shell/backend.service /etc/systemd/system/backend.service
 
