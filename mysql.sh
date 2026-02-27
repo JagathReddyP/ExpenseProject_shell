@@ -45,8 +45,17 @@ VALIDATE $? "enabled MySQL server"
 systemctl start mysqld
 VALIDATE $? "started MySQL server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1
-VALIDATE $? "setting up root password"
+mysql -h mysql.jagathlearn.art -u root -pExpenseApp@1 -e 'show databases;'
+ if [ $? -ne 0 ]
+ then
+  echo "MySQL root password is not set up.. setting it now" &>> $LOG_FILE
+  mysql_secure_installation --set-root-pass ExpenseApp@1
+    VALIDATE $? "setting up root password"
+ else
+   echo -e "MySQL root password $Y SKIPPING $N"|tee -a "$LOG_FILE"  
+  fi 
+
+
 
 
 
