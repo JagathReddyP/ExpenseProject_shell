@@ -50,11 +50,11 @@ VALIDATE $? "install nodejs"
 id expense &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
-echo "expense user was not created..$G creating $N"
+echo -e "expense user was not created..$G creating $N"
 useradd expense &>>$LOG_FILE
 VALIDATE $? "Creating expense user"
 else
-echo "expense user was already exist $Y SKIPPING $N"
+echo -e "expense user was already exist $Y SKIPPING $N"
 fi
 
 
