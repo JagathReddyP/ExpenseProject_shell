@@ -38,13 +38,13 @@ CHECK_ROOT
 
 echo "script started executing at : $(date)"|tee -a "$LOG_FILE"
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "disable nodejs"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 VALIDATE $? "enable nodejs"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "install nodejs"
 
 useradd expense
