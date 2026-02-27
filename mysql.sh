@@ -29,21 +29,21 @@ CHECK_ROOT() {
 VALIDATE() {
     if [ "$1" -ne 0 ]
     then
-     echo -e " $2  was $R failed $N "|tee -a "$LOG_FILE"
+     echo -e "$2 was $R failed $N "|tee -a "$LOG_FILE"
     else
-     echo -e " $2  was $G Success $N"|tee -a "$LOG_FILE"
+     echo -e "$2 was $G Success $N"|tee -a "$LOG_FILE"
     fi
 }
 CHECK_ROOT
 
 dnf install mysql-server -y &>> $LOG_FILE
-VALIDATE $? "MySQL server"
+VALIDATE $? "Installing MySQL server"
 
 systemctl enable mysqld
-VALIDATE $? "enabled MySQL server"
+VALIDATE $? -e "$G Enabled $N MySQL server"
 
 systemctl start mysqld
-VALIDATE $? "started MySQL server"
+VALIDATE $? "Starting MySQL server"
 
 mysql -h mysql.jagathlearn.art -u root -pExpenseApp@1 -e 'show databases;' &>> $LOG_FILE
  if [ $? -ne 0 ]
