@@ -38,26 +38,4 @@ CHECK_ROOT
 
 echo "script started executing at : $(date)"|tee -a "$LOG_FILE"
 
-dnf install mysql-server -y &>> $LOG_FILE
-VALIDATE $? "Installing MySQL server"
-
-systemctl enable mysqld
-VALIDATE $? "Enabled MySQL server"
-
-systemctl start mysqld
-VALIDATE $? "Starting MySQL server"
-
-mysql -h mysql.jagathlearn.art -u root -pExpenseApp@1 -e 'show databases;' &>> $LOG_FILE
- if [ $? -ne 0 ]
- then
-  echo "MySQL root password is not set up.. setting it now" &>> $LOG_FILE
-  mysql_secure_installation --set-root-pass ExpenseApp@1
-    VALIDATE $? "setting up root password"
- else
-   echo -e "MySQL root password $Y SKIPPING $N"|tee -a "$LOG_FILE"  
-  fi 
-
-
-
-
 
