@@ -30,6 +30,7 @@ VALIDATE() {
     if [ "$1" -ne 0 ]
     then
      echo -e "$2 was $R failed $N "|tee -a "$LOG_FILE"
+     exit 1
     else
      echo -e "$2 was $G Success $N"|tee -a "$LOG_FILE"
     fi
@@ -51,13 +52,15 @@ rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
 VALIDATE $? "removing default website"
 
 curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOG_FILE
-VALIDATE $? "Downloading backend application code"
+VALIDATE $? "Downloading frontend application code"
 
 cd /usr/share/nginx/html
-
-rm -rf /usr/share/nginx/html/*
 
 unzip /tmp/frontend.zip &>>$LOG_FILE
 VALIDATE $? "Extracting frontend application code"
 
-cp 
+cp /home/ec2-user/ExpenseProject_shell/expense.conf /etc/nginx/default.d/expense.conf &>>$LOG_FILE
+VALIDATE $? "Copying nginx configuration"
+
+systemctl restart nginx &>>$LOG_FILE
+VALIDATE $? "restart nginx"
